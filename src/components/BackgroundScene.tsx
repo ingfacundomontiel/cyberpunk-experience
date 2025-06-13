@@ -10,38 +10,59 @@ interface BackgroundSceneProps {
 
 function FlowingLines({ attackState = true, scrollY = 0 }: BackgroundSceneProps) {
   const linesRef = useRef<THREE.Group>(null);
+  const materialRef = useRef<THREE.LineBasicMaterial>();
+
+  // Create single shared material for all lines
+  const sharedMaterial = useMemo(() => {
+    const material = new THREE.LineBasicMaterial({
+      color: attackState ? "#ff0000" : "#00ff00",
+      transparent: true,
+      opacity: 0.3
+    });
+    materialRef.current = material;
+    return material;
+  }, []);
 
   useFrame((state) => {
     if (linesRef.current) {
       linesRef.current.children.forEach((line, index) => {
-        line.position.x += attackState ? Math.sin(state.clock.elapsedTime + index) * 0.02 : 0.01;
+        line.position.x += attackState ? Math.sin(state.clock.elapsedTime + index) * 0.02 : 0.0001;
 
-        if (line.position.x > 10) {
-          line.position.x = -10;
+        // Extend the reset boundary to match the longer lines
+        if (line.position.x > 20) {
+          line.position.x = -20;
         }
       });
     }
+
+    // Update shared material color when attackState changes
+    if (materialRef.current) {
+      const targetColor = attackState ? "#ff0000" : "#00ff00";
+      materialRef.current.color.setHex(parseInt(targetColor.replace('#', ''), 16));
+    }
   });
 
-  const lines = [];
-  for (let i = 0; i < 20; i++) {
-    const points = [];
-    for (let j = 0; j < 50; j++) {
-      points.push(new THREE.Vector3(j * 0.4 - 10, Math.sin(j * 0.2 + i) * 2, Math.cos(j * 0.1 + i) * 2));
-    }
+  // Memoize geometry creation for better performance
+  const lines = useMemo(() => {
+    const lineArray = [];
+    
+    // Back to 20 lines for proper tornado density
+    for (let i = 0; i < 20; i++) {
+      const points = [];
+      // Reduced to 50 points but doubled spacing to maintain line length
+      for (let j = 0; j < 50; j++) {
+        // Keep the EXACT same spiral math, just with adjusted spacing
+        points.push(new THREE.Vector3(j * 0.8 - 20, Math.sin(j * 0.4 + i) * 2, Math.cos(j * 0.2 + i) * 2));
+      }
 
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    lines.push(
-      <primitive key={i} object={new THREE.Line(
-        geometry,
-        new THREE.LineBasicMaterial({
-          color: attackState ? "#ff0000" : "#00ff00",
-          transparent: true,
-          opacity: 0.3
-        })
-      )} />
-    );
-  }
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      lineArray.push(
+        <primitive key={i} object={new THREE.Line(geometry, sharedMaterial)} />
+      );
+    }
+    
+    return lineArray;
+  }, [sharedMaterial]);
 
   return <group ref={linesRef}>{lines}</group>;
 }

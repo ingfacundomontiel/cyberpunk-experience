@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { BackgroundScene } from './components/BackgroundScene';
 
 function App() {
-  const [attackState, setAttackState] = useState(false);
+  const [attackState, setAttackState] = useState(true);
 
   const toggleAttackState = () => {
     setAttackState(prev => !prev);
