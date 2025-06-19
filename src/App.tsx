@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { BackgroundScene } from './components/BackgroundScene';
+import FloatingButton from './components/FloatingButton';
 import GlitchText from './components/GlitchText';
 import CyberMap from './components/CyberMap';
 import DataLogs from './components/DataLogs';
@@ -9,26 +10,58 @@ function App() {
   const [attackState, setAttackState] = useState(true); // Start in attack mode
   const [buttonPressed, setButtonPressed] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [currentSection, setCurrentSection] = useState('hero');
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      setScrollY(scrollPosition);
+      
+      // Determine current section based on scroll position
+      const sectionHeight = windowHeight;
+      const sectionIndex = Math.floor(scrollPosition / sectionHeight);
+      
+      const sections = ['hero', 'concept', 'transition', 'about', 'exhibition', 'contact'];
+      const section = sections[Math.min(sectionIndex, sections.length - 1)];
+      setCurrentSection(section);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleAttackState = () => {
-    setAttackState(prev => !prev);
+  const handleEmergencyProtocol = () => {
+    setAttackState(false);
     setButtonPressed(true);
+    // Smooth scroll to safe section after activation
+    setTimeout(() => {
+      const aboutSection = document.querySelector('[data-section="about"]');
+      aboutSection?.scrollIntoView({ behavior: 'smooth' });
+    }, 1000);
   };
 
   return (
     <div className="min-h-screen bg-black text-white">
       {/* 3D Background Canvas */}
-      <div className="fixed inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+      <div className={`fixed inset-0 ${currentSection === 'transition' ? 'z-50' : 'z-0'}`}>
+        <Canvas 
+          camera={{ position: [0, 0, 5], fov: 75 }}
+          style={{ 
+            pointerEvents: currentSection === 'transition' ? 'auto' : 'none', 
+            cursor: 'auto' 
+          }}
+        >
           <BackgroundScene attackState={attackState} scrollY={scrollY} />
+          <FloatingButton 
+            isAttackMode={attackState} 
+            onPress={handleEmergencyProtocol}
+            scrollY={scrollY}
+            currentSection={currentSection}
+          />
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} />
         </Canvas>
       </div>
 
@@ -93,17 +126,27 @@ function App() {
                 SYSTEM SECURED - SAFE MODE ACTIVATED
               </div>
             )}
-            {/* Temporary button - will be replaced with 3D floating button in Step 2 */}
-            <button
-              onClick={toggleAttackState}
-              className={`px-8 py-4 rounded font-mono text-xl transition-colors ${
-                attackState 
-                  ? 'bg-red-500 hover:bg-red-600 animate-pulse' 
-                  : 'bg-green-500 hover:bg-green-600'
-              }`}
-            >
-              {attackState ? 'EMERGENCY PROTOCOL' : 'SYSTEM SECURE'}
-            </button>
+            {/* Section Status Indicator */}
+            <div className="text-center">
+              <div className="text-sm font-mono text-gray-400 mb-4">
+                Current Section: {currentSection.toUpperCase()}
+              </div>
+              <div className="text-xs font-mono text-blue-400 mb-4">
+                Button Active: {(currentSection === 'transition' && attackState) ? 'YES' : 'NO'} | 
+                Canvas Z-Index: {currentSection === 'transition' ? '50' : '0'} | 
+                Pointer Events: {currentSection === 'transition' ? 'ON' : 'OFF'}
+              </div>
+              {currentSection === 'transition' && attackState && (
+                <div className="text-lg font-mono text-yellow-400 animate-pulse">
+                  → Look for the 3D Emergency Button (with yellow debug box) ←
+                </div>
+              )}
+              {currentSection !== 'transition' && attackState && (
+                <div className="text-sm font-mono text-gray-500">
+                  Scroll to transition section to activate button
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
@@ -111,7 +154,7 @@ function App() {
         <div className={`transition-all duration-2000 ${buttonPressed ? "opacity-100" : "opacity-50"}`}>
           
           {/* About Section */}
-          <section className="min-h-screen flex items-center px-4 md:px-8">
+          <section data-section="about" className="min-h-screen flex items-center px-4 md:px-8">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">ABOUT THE CREATOR</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
