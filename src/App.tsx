@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { BackgroundScene } from './components/BackgroundScene';
+import { useScrollRestriction } from './hooks/useScrollRestriction';
 import GlitchText from './components/GlitchText';
 import CyberMap from './components/CyberMap';
 import DataLogs from './components/DataLogs';
@@ -9,6 +10,18 @@ function App() {
   const [attackState, setAttackState] = useState(true); // Start in attack mode
   const [buttonPressed, setButtonPressed] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [part2Unlocked, setPart2Unlocked] = useState(false); // Controls Part 2 visibility
+
+  // Calculate scroll boundaries
+  const sectionHeight = window.innerHeight;
+  const transitionSectionEnd = sectionHeight * 2;
+  const maxAllowedScroll = part2Unlocked ? Infinity : transitionSectionEnd;
+
+  // Use scroll restriction hook
+  const { isBlocking } = useScrollRestriction({
+    maxAllowedScroll,
+    isUnlocked: part2Unlocked
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +34,7 @@ function App() {
   const toggleAttackState = () => {
     setAttackState(prev => !prev);
     setButtonPressed(true);
+    setPart2Unlocked(true); // 🔑 Unlock Part 2!
   };
 
   return (
@@ -35,14 +49,14 @@ function App() {
       {/* Content Sections */}
       <div className="relative z-10">
         {/* PART 1: ATTACK MODE */}
-        
+
         {/* Hero Section */}
         <section className="min-h-screen flex flex-col justify-center items-center px-4 md:px-8">
           <div className="max-w-4xl mx-auto text-center">
-            <GlitchText 
-              text="DARK FOREST" 
-              className="text-6xl md:text-8xl font-bold mb-8" 
-              isActive={attackState} 
+            <GlitchText
+              text="THE SOUND OF CYBER"
+              className="text-6xl md:text-8xl font-bold mb-8"
+              isActive={attackState}
             />
             <div className={`transition-all duration-1000 ${attackState ? "text-red-400" : "text-green-400"}`}>
               <p className="text-xl md:text-2xl font-mono mb-8 leading-relaxed">
@@ -93,25 +107,53 @@ function App() {
                 SYSTEM SECURED - SAFE MODE ACTIVATED
               </div>
             )}
+
+            {/* Scroll restriction warning */}
+            {!part2Unlocked && (
+              <div className="mb-6 p-4 border border-red-500/30 bg-red-500/10 rounded">
+                <div className="text-red-400 font-mono text-sm mb-2">⚠️ ACCESS RESTRICTED</div>
+                <div className="text-gray-300 font-mono text-xs">
+                  Security protocols prevent further access.<br />
+                  Emergency authorization required to proceed.
+                </div>
+              </div>
+            )}
+
             {/* Temporary button - will be replaced with 3D floating button in Step 2 */}
             <button
               onClick={toggleAttackState}
-              className={`px-8 py-4 rounded font-mono text-xl transition-colors ${
-                attackState 
-                  ? 'bg-red-500 hover:bg-red-600 animate-pulse' 
+              className={`px-8 py-4 rounded font-mono text-xl transition-colors ${attackState
+                  ? 'bg-red-500 hover:bg-red-600 animate-pulse'
                   : 'bg-green-500 hover:bg-green-600'
-              }`}
+                }`}
             >
               {attackState ? 'EMERGENCY PROTOCOL' : 'SYSTEM SECURE'}
             </button>
+
+            {part2Unlocked && (
+              <div className={`mt-6 font-mono text-sm animate-pulse ${
+                attackState ? "text-red-400" : "text-green-400"
+              }`}>
+                {attackState 
+                  ? "⚠️ SYSTEM COMPROMISED - Access remains available" 
+                  : "ACCESS GRANTED - Continue scrolling to explore safe zones"
+                }
+              </div>
+            )}
           </div>
         </section>
 
-        {/* PART 2: SAFE MODE - For now all visible, will be hidden in Step 3 */}
-        <div className={`transition-all duration-2000 ${buttonPressed ? "opacity-100" : "opacity-50"}`}>
-          
+        {/* PART 2: SAFE MODE - Hidden until emergency protocol activated */}
+        <div className={`transition-all duration-2000 transform ${
+          part2Unlocked 
+            ? "opacity-100 translate-y-0 pointer-events-auto" 
+            : "opacity-0 translate-y-10 pointer-events-none"
+        }`}>
+
           {/* About Section */}
-          <section className="min-h-screen flex items-center px-4 md:px-8">
+          <section className={`min-h-screen flex items-center px-4 md:px-8 transition-all duration-1000 delay-300 ${
+            part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          }`}>
             <div className="max-w-4xl mx-auto">
               <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">ABOUT THE CREATOR</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -136,7 +178,9 @@ function App() {
           </section>
 
           {/* Exhibition Section */}
-          <section className="min-h-screen flex items-center px-4 md:px-8">
+          <section className={`min-h-screen flex items-center px-4 md:px-8 transition-all duration-1000 delay-600 ${
+            part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          }`}>
             <div className="max-w-4xl mx-auto">
               <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">EXHIBITION</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -154,7 +198,7 @@ function App() {
                 </div>
                 <div>
                   <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-                    Experience the Dark Forest installation in person at the Digital Arts Center.
+                    Experience the Sound of Cyber installation in person at the Digital Arts Center.
                   </p>
                   <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
                     Immerse yourself in the invisible world of cybersecurity through interactive visualization and
@@ -166,7 +210,9 @@ function App() {
           </section>
 
           {/* Contact Section */}
-          <section className="min-h-screen flex items-center px-4 md:px-8">
+          <section className={`min-h-screen flex items-center px-4 md:px-8 transition-all duration-1000 delay-900 ${
+            part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          }`}>
             <div className="max-w-4xl mx-auto">
               <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">CONTACT</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
