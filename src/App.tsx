@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { BackgroundScene } from './components/BackgroundScene';
 import { useScrollRestriction } from './hooks/useScrollRestriction';
+import { Button3DWrapper } from './components/Button3DWrapper';
 import GlitchText from './components/GlitchText';
 import CyberMap from './components/CyberMap';
 import DataLogs from './components/DataLogs';
@@ -97,49 +98,64 @@ function App() {
         {/* Transition Section */}
         <section className="min-h-screen flex items-center justify-center px-4 md:px-8">
           <div className="text-center">
-            {!buttonPressed && (
-              <div className="text-2xl md:text-3xl font-mono text-red-400 animate-pulse mb-8">
-                EMERGENCY PROTOCOL REQUIRED
-              </div>
-            )}
-            {buttonPressed && !attackState && (
-              <div className="text-2xl md:text-3xl font-mono text-green-400 animate-pulse">
-                SYSTEM SECURED - SAFE MODE ACTIVATED
-              </div>
-            )}
-
-            {/* Scroll restriction warning */}
-            {!part2Unlocked && (
-              <div className="mb-6 p-4 border border-red-500/30 bg-red-500/10 rounded">
-                <div className="text-red-400 font-mono text-sm mb-2">⚠️ ACCESS RESTRICTED</div>
-                <div className="text-gray-300 font-mono text-xs">
-                  Security protocols prevent further access.<br />
-                  Emergency authorization required to proceed.
+            {/* Fixed height container for top message */}
+            <div className="min-h-[4rem] md:min-h-[5rem] flex items-center justify-center">
+              {attackState && (
+                <div className="text-2xl md:text-3xl font-mono text-red-400 animate-pulse">
+                  EMERGENCY PROTOCOL REQUIRED
                 </div>
-              </div>
-            )}
+              )}
+              {buttonPressed && !attackState && (
+                <div className="text-2xl md:text-3xl font-mono text-green-400 animate-pulse">
+                  SYSTEM SECURED - SAFE MODE ACTIVATED
+                </div>
+              )}
+            </div>
 
-            {/* Temporary button - will be replaced with 3D floating button in Step 2 */}
-            <button
+            {/* Fixed height container for status box */}
+            <div className="min-h-[7rem] mb-6 flex items-center justify-center">
+              {!part2Unlocked && (
+                <div className="p-4 border border-red-500/30 bg-red-500/10 rounded">
+                  <div className="text-red-400 font-mono text-sm mb-2">⚠️ ACCESS RESTRICTED</div>
+                  <div className="text-gray-300 font-mono text-xs">
+                    Security protocols prevent further access.<br />
+                    Emergency authorization required to proceed.
+                  </div>
+                </div>
+              )}
+              {part2Unlocked && (
+                <div className={`p-4 rounded ${
+                  attackState 
+                    ? "border border-red-500/30 bg-red-500/10" 
+                    : "border border-green-500/30 bg-green-500/10"
+                }`}>
+                  <div className={`font-mono text-sm ${
+                    attackState ? "text-red-400" : "text-green-400"
+                  }`}>
+                    {attackState ? "⚠️ SYSTEM COMPROMISED" : "✅ ACCESS GRANTED"}
+                  </div>
+                  <div className="text-gray-300 font-mono text-xs">
+                    {attackState 
+                      ? (
+                        <>
+                          Security breach detected.<br />
+                          Access remains available for investigation.
+                        </>
+                      )
+                      : "Continue scrolling to explore safe zones"
+                    }
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 3D Button */}
+            <Button3DWrapper
+              attackState={attackState}
               onClick={toggleAttackState}
-              className={`px-8 py-4 rounded font-mono text-xl transition-colors ${attackState
-                  ? 'bg-red-500 hover:bg-red-600 animate-pulse'
-                  : 'bg-green-500 hover:bg-green-600'
-                }`}
-            >
-              {attackState ? 'EMERGENCY PROTOCOL' : 'SYSTEM SECURE'}
-            </button>
+              show={true}
+            />
 
-            {part2Unlocked && (
-              <div className={`mt-6 font-mono text-sm animate-pulse ${
-                attackState ? "text-red-400" : "text-green-400"
-              }`}>
-                {attackState 
-                  ? "⚠️ SYSTEM COMPROMISED - Access remains available" 
-                  : "ACCESS GRANTED - Continue scrolling to explore safe zones"
-                }
-              </div>
-            )}
           </div>
         </section>
 
