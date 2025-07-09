@@ -81,11 +81,10 @@ function App() {
                 THE CONCEPT
               </h2>
               <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-                An immersive art installation designed to capture the visceral and often invisible experience of a
-                cybersecurity attack.
+                The Sound of Cyber transforms cybersecurity into a multisensory experience using real-time sound generation technology. Network events become dynamic audio, turning abstract digital threats into immersive sensory experiences.
               </p>
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                "The universe is a dark forest..." — Cixin Liu
+              <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+                Each protocol produces a unique sonic signature: HTTP flows as stable tones, DNS pulses like sharp queries, while SMB under attack creates tense, distorted frequencies.
               </p>
             </div>
             <div className="relative">
@@ -171,22 +170,22 @@ function App() {
             part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}>
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">ABOUT THE CREATOR</h2>
+              <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">A LIVING SYMPHONY</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div>
                   <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-                    This installation explores the intersection of technology, security, and human perception in our
-                    increasingly connected world.
+                    At the heart of The Sound of Cyber is a live honeypot that continuously attracts and records real-world network activity—from scans to intrusion attempts.
                   </p>
                   <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                    Through immersive visualization, we experience the invisible battles fought in cyberspace every day.
+                    This traffic is interpreted in real time into a reactive soundscape, enhanced with synchronized LED lighting and visual projections.
                   </p>
                 </div>
                 <div className="space-y-4">
                   <div className="border border-green-400/30 p-4 font-mono">
-                    <div className="text-green-400">ARTIST.EXE</div>
-                    <div className="text-gray-400">Digital Security Researcher</div>
-                    <div className="text-gray-400">Interactive Media Artist</div>
+                    <div className="text-green-400">SYSTEM.STATUS</div>
+                    <div className="text-gray-400">Live Honeypot Active</div>
+                    <div className="text-gray-400">Real-time Audio Generation</div>
+                    <div className="text-gray-400">Synchronized Visuals</div>
                   </div>
                 </div>
               </div>
