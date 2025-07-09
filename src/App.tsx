@@ -19,7 +19,7 @@ function App() {
   const maxAllowedScroll = part2Unlocked ? Infinity : transitionSectionEnd;
 
   // Use scroll restriction hook
-  const { isBlocking } = useScrollRestriction({
+  useScrollRestriction({
     maxAllowedScroll,
     isUnlocked: part2Unlocked
   });

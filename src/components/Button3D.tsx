@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { Cylinder, Box } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -13,7 +13,6 @@ export function Button3D({ attackState, onClick }: Button3DProps) {
   const topRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
-  const { camera, raycaster, mouse } = useThree();
 
   // Animation
   useFrame((state) => {
