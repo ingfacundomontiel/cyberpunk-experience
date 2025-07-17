@@ -240,7 +240,7 @@ function App() {
                   </div>
                   <div className="border border-green-400/30 p-6 font-mono">
                     <div className="text-green-400 mb-2">CONTACT</div>
-                    <div className="text-gray-300">info@darkforest.art</div>
+                    <div className="text-gray-300">zen@thesoundofcyber.org</div>
                     <div className="text-gray-300">+1 (555) 123-4567</div>
                   </div>
                 </div>

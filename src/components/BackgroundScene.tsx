@@ -21,7 +21,7 @@ function FlowingLines({ attackState = true, scrollY = 0 }: BackgroundSceneProps)
     });
     materialRef.current = material;
     return material;
-  }, []);
+  }, [attackState]);
 
   useFrame((state) => {
     if (linesRef.current) {
