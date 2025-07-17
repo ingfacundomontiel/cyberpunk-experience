@@ -81,10 +81,10 @@ function App() {
                 THE CONCEPT
               </h2>
               <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-                The Sound of Cyber transforms cybersecurity into a multisensory experience using real-time sound generation technology. Network events become dynamic audio, turning abstract digital threats into immersive sensory experiences.
+                The Sound of Cyber transforms cybersecurity threats into a multisensory experience using real-time sound generation technology. Abnormal network events become dynamic audio, turning abstract digital threats into immersive sensory experiences.
               </p>
               <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-                Each protocol produces a unique sonic signature: HTTP flows as stable tones, DNS pulses like sharp queries, while SMB under attack creates tense, distorted frequencies.
+                Each protocol produces a unique sonic signature: HTTP flows, DNS pulses,SMB and all kind of under attack scenarios creates tense, distorted frequencies.
               </p>
             </div>
             <div className="relative">
@@ -123,18 +123,16 @@ function App() {
                 </div>
               )}
               {part2Unlocked && (
-                <div className={`p-4 rounded ${
-                  attackState 
-                    ? "border border-red-500/30 bg-red-500/10" 
+                <div className={`p-4 rounded ${attackState
+                    ? "border border-red-500/30 bg-red-500/10"
                     : "border border-green-500/30 bg-green-500/10"
-                }`}>
-                  <div className={`font-mono text-sm ${
-                    attackState ? "text-red-400" : "text-green-400"
                   }`}>
+                  <div className={`font-mono text-sm ${attackState ? "text-red-400" : "text-green-400"
+                    }`}>
                     {attackState ? "⚠️ SYSTEM COMPROMISED" : "✅ ACCESS GRANTED"}
                   </div>
                   <div className="text-gray-300 font-mono text-xs">
-                    {attackState 
+                    {attackState
                       ? (
                         <>
                           Security breach detected.<br />
@@ -159,16 +157,14 @@ function App() {
         </section>
 
         {/* PART 2: SAFE MODE - Hidden until emergency protocol activated */}
-        <div className={`transition-all duration-2000 transform ${
-          part2Unlocked 
-            ? "opacity-100 translate-y-0 pointer-events-auto" 
+        <div className={`transition-all duration-2000 transform ${part2Unlocked
+            ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 translate-y-10 pointer-events-none"
-        }`}>
+          }`}>
 
           {/* About Section */}
-          <section className={`min-h-screen flex items-center px-4 md:px-8 transition-all duration-1000 delay-300 ${
-            part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-          }`}>
+          <section className={`min-h-screen flex items-center px-4 md:px-8 transition-all duration-1000 delay-300 ${part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+            }`}>
             <div className="max-w-4xl mx-auto">
               <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">A LIVING SYMPHONY</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -177,7 +173,7 @@ function App() {
                     At the heart of The Sound of Cyber is a live honeypot that continuously attracts and records real-world network activity—from scans to intrusion attempts.
                   </p>
                   <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                    This traffic is interpreted in real time into a reactive soundscape, enhanced with synchronized LED lighting and visual projections.
+                    This traffic is interpreted in real time into a reactive soundscape, enhanced with synchronized LED lighting and visual projections. Feel it and observe it yourself.
                   </p>
                 </div>
                 <div className="space-y-4">
@@ -193,27 +189,31 @@ function App() {
           </section>
 
           {/* Exhibition Section */}
-          <section className={`min-h-screen flex items-center px-4 md:px-8 transition-all duration-1000 delay-600 ${
-            part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-          }`}>
+          <section className={`min-h-screen flex items-center px-4 md:px-8 transition-all duration-1000 delay-600 ${part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+            }`}>
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">EXHIBITION</h2>
+              <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">EXHIBITION AGENDA</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div>
                   <div className="border border-green-400/30 p-6 mb-6 font-mono">
-                    <div className="text-green-400 text-xl mb-2">OPENING NIGHT</div>
-                    <div className="text-gray-300">March 15, 2024</div>
-                    <div className="text-gray-300">19:00 - 23:00</div>
+                    <div className="text-green-400 text-xl mb-2">BLACKHAT 25</div>
+                    <div className="text-gray-300">August 4-8, 2025 - USA </div>
+                    <div className="text-gray-300">Virgin Hotel</div>
+                  </div>
+                  <div className="border border-green-400/30 p-6 mb-6 font-mono">
+                    <div className="text-green-400 text-xl mb-2">EKOPARTY</div>
+                    <div className="text-gray-300">October  2025 - Argentine </div>
+                    <div className="text-gray-300">CEC - Buenos Aires</div>
                   </div>
                   <div className="border border-green-400/30 p-6 font-mono">
-                    <div className="text-green-400 text-xl mb-2">EXHIBITION PERIOD</div>
-                    <div className="text-gray-300">March 15 - April 30, 2024</div>
-                    <div className="text-gray-300">Gallery Hours: 10:00 - 18:00</div>
+                    <div className="text-green-400 text-xl mb-2">LATAM CISO Summit 2025</div>
+                    <div className="text-gray-300">September 11 - 13 - Brasil </div>
+                    <div className="text-gray-300">Rio de Janeiro</div>
                   </div>
                 </div>
                 <div>
                   <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-                    Experience the Sound of Cyber installation in person at the Digital Arts Center.
+                    Experience the Sound of Cyber installation in person.
                   </p>
                   <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
                     Immerse yourself in the invisible world of cybersecurity through interactive visualization and
@@ -225,28 +225,35 @@ function App() {
           </section>
 
           {/* Contact Section */}
-          <section className={`min-h-screen flex items-center px-4 md:px-8 transition-all duration-1000 delay-900 ${
-            part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-          }`}>
+          <section className={`min-h-screen flex items-center px-4 md:px-8 transition-all duration-1000 delay-900 ${part2Unlocked ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+            }`}>
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">CONTACT</h2>
+              <h2 className="text-4xl md:text-6xl font-bold mb-8 text-green-400">TEAM</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="space-y-6">
                   <div className="border border-green-400/30 p-6 font-mono">
-                    <div className="text-green-400 mb-2">GALLERY</div>
-                    <div className="text-gray-300">Digital Arts Center</div>
-                    <div className="text-gray-300">123 Cyber Street</div>
-                    <div className="text-gray-300">Tech District, TD 12345</div>
+                    <div className="text-green-400 mb-2">We are you</div>
+                    <div className="text-gray-300">Federico Nan - Concept and Artistic Direction</div>
+                    <div className="text-gray-300">Salvador Mendoza - Hardware Engineer</div>
+                    <div className="text-gray-300">Jasper Devir - Sound Engineer</div>
+                    <div className="text-gray-300">Pedro Scarton - Backend Engineer</div>
+                    <div className="text-gray-300">Facundo Montiel - Web Engineer</div>
                   </div>
                   <div className="border border-green-400/30 p-6 font-mono">
                     <div className="text-green-400 mb-2">CONTACT</div>
                     <div className="text-gray-300">zen@thesoundofcyber.org</div>
-                    <div className="text-gray-300">+1 (555) 123-4567</div>
+                    <div className="text-gray-300"></div>
+                  </div>
+                  <div className="border border-green-400/30 p-6 font-mono">
+                    <div className="text-green-400 mb-2">PROUDLY BACKED BY</div>
+                    <a href="https://batuta.com" target="_blank" rel="noopener noreferrer">
+                      <img src="/img/batuta-logo-light.svg" alt="Batuta" className="h-auto mt-4" style={{ width: '150px' }} />
+                    </a>
                   </div>
                 </div>
                 <div>
                   <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-                    For press inquiries, private viewings, or technical information about the installation.
+                    For press inquiries, private viewings, or technical information about the installation send us an email
                   </p>
                   <div className="space-y-2 font-mono text-green-400">
                     <div>SYSTEM STATUS: {attackState ? 'COMPROMISED' : 'SECURE'}</div>
